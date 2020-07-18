@@ -1,0 +1,7 @@
+FROM node:12-alpine
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY . ./
+RUN sed -i s/localhost:8001/backend:8080/ /app/package.json
+RUN npm install
+CMD ["npm", "start"]

@@ -1,0 +1,12 @@
+FROM maven:3.6.3-jdk-11 AS build
+WORKDIR /home/app
+COPY settings.xml /user/share/maven/ref/
+COPY src/ src/
+COPY pom.xml ./
+RUN mvn package
+
+FROM openjdk:8
+WORKDIR /usr/app/
+COPY --from=build /home/app/target/*.jar backend.jar
+# Including -DSTORAGE_DIR as part of the container startup command so we won't have to include it when using docker run ...
+CMD ["java", "-jar", "-DSTORAGE_DIR=/usr/app/configs", "backend.jar"]
