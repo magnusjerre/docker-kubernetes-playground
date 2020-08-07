@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import './App.css';
 
 function App() {
-  const [usernames, setUsernames] = useState([]);
+  const [persons, setPersons] = useState([]);
   
-  const fetchUsernames = () => {
-    fetch(`/users`)
+  const fetchPersons = () => {
+    fetch(`/persons`)
     .then(response => response.json())
-    .then(json => {
-      setUsernames(json);
+    .then(personsJsonArray => {
+      setPersons(personsJsonArray);
     })
     .catch(reason =>  console.log("reason", reason));
   }
@@ -17,11 +17,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div className="usernames">
-          <button onClick={fetchUsernames}>Fetch usernames</button>
-          <h1>Usernames</h1>
+          <button onClick={fetchPersons}>Fetch persons</button>
+          <h1>Persons</h1>
           <ul>
             {
-              usernames.map((username, index) => <li key={index}>{username}</li>)
+              persons.map((person, index) => <li key={index}>{person}</li>)
             }
           </ul>
         </div>

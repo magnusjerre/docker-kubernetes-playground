@@ -1,0 +1,41 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./backend-java-rest
+      dockerfile: Dockerfile.multistage
+    image: "backend-java"
+    depends_on:
+      - postgres-db
+    environment: 
+      - DB_HOST=postgres-db
+    networks:
+      - docker-apps
+    ports:
+      - "8001:8080"
+    volumes:
+      - /Users/magnus/Documents/docker-configs:/usr/app/configs
+  postgres-db:
+    build: ./postgres-db
+    image: backend-postgres-db
+    environment: 
+      - POSTGRES_PASSWORD=password
+    networks:
+      - docker-apps
+    ports:
+      - "5432:5432" 
+  frontend:
+    build:
+      context: ./frontend-react
+      dockerfile: Dockerfile
+    image: "frontend-react"
+    depends_on: 
+      - backend
+    environment: 
+      - BACKEND_HOST=backend
+    networks:
+      - docker-apps
+    ports:
+      - "3001:80"
+networks:
+  docker-apps:
