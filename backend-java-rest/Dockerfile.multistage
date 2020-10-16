@@ -10,4 +10,6 @@ WORKDIR /usr/app/
 EXPOSE 8080
 COPY --from=build /home/app/target/*.jar backend.jar
 # Including -DSTORAGE_DIR as part of the container startup command so we won't have to include it when using docker run ...
-CMD ["java", "-jar", "-DSTORAGE_DIR=/usr/app/configs", "backend.jar"]
+# RUN mkdir -p /usr/app/configs
+# CMD ["ls", "/usr/app"]
+ENTRYPOINT ["java", "-jar", "-DSTORAGE_DIR=/usr/app/configs", "backend.jar", "--spring.config.location=/usr/app/configs/"]

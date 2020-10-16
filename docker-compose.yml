@@ -8,13 +8,13 @@ services:
     depends_on:
       - postgres-db
     environment: 
-      - DB_HOST=postgres-db
+      - -Dspring.config.location=/d/MJDev/docker-configs/
     networks:
       - docker-apps
     ports:
       - "8001:8080"
     volumes:
-      - /Users/magnus/Documents/docker-configs:/usr/app/configs
+      - /d/MJDev/docker-configs:/usr/app/configs
   postgres-db:
     build: ./postgres-db
     image: backend-postgres-db
